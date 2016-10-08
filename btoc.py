@@ -51,10 +51,10 @@ def btoc(content):
 
     soup = BeautifulSoup(content._content, 'html.parser')
 
-    btoc_default_settings['levels'].sort()
+    btoc_settings['levels'].sort()
     #numbering = [[level, 0] for level in btoc_default_settings['levels']]
 
-    heading_regex = '|'.join([str(level) for level in btoc_default_settings['levels']])
+    heading_regex = '|'.join([str(level) for level in btoc_settings['levels']])
     search = re.compile('^h(%s)$' % (heading_regex))
     headings = soup.findAll(search)
 
