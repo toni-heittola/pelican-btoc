@@ -75,6 +75,12 @@ At the bottom of the page before `</body>` tag (to include js files):
         {% endif %}
     {% endif %}
 
+Insert TOC in the template:
+ 
+    {% if page.toc %}
+        {{ page.toc }}
+    {% endif %}
+
 Usage
 =====
 
