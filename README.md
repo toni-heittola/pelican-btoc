@@ -32,6 +32,8 @@ In order to regenerate minified CSS and JS files you need also:
 
 ## Pelican installation
 
+Make sure you include [Bootstrap](http://getbootstrap.com/) in your template.
+
 Make sure the directory where the plugin was installed is set in `pelicanconf.py`. For example if you installed in `plugins/pelican-btoc`, add:
 
     PLUGIN_PATHS = ['plugins']
