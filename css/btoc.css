@@ -1,0 +1,129 @@
+.btoc-container.affix {
+  position: static;
+}
+
+.btoc-nav {
+  padding-top:    10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #f7f5fa;
+}
+
+
+/* All levels of nav */
+.btoc-container .nav > li > a {
+  display: block;
+  color: #716b7a;
+  padding: 5px 20px;
+}
+.btoc-container .nav > li > a:hover,
+.btoc-container .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #e5e3e9;
+  border-right: 8px solid #444;
+}
+.btoc-container .nav > .active > a,
+.btoc-container .nav > .active:hover > a,
+.btoc-container .nav > .active:focus > a {
+  font-weight: bold;
+  color: #444;
+  background-color: transparent;
+  border-right: 8px solid #444;
+}
+
+/* Nav: second level (shown on .active) */
+.btoc-container li > ul {
+  display: none; /* Hide by default, but at >768px, show it */
+  margin-bottom: 8px;
+  list-style-type: none;
+}
+
+.btoc-container li > ul > li > a {
+  display: block;
+
+  padding-top:    3px;
+  padding-bottom: 3px;
+  /*padding-left: 30px;*/
+  font-size: 90%;
+  text-decoration: none;
+}
+
+.btoc-container li > ul > li > a:hover,
+.btoc-container li > ul > li > a:focus {
+  text-decoration: none;
+  background-color: #e5e3e9;
+  border-right: 8px solid #EEE;
+}
+
+.btoc-container li > ul > .active > a,
+.btoc-container li > ul > .active:hover > a,
+.btoc-container li > ul > .active:focus > a {
+  /*font-weight: bold;*/
+  color: #888;
+  background-color: transparent;
+  border-right: 8px solid #888;
+}
+
+/* Nav: third level (shown on .active) */
+.btoc-container li > ul > li > ul{
+  display: none; /* Hide by default, but at >768px, show it */
+  margin-bottom: 8px;
+  list-style-type: none;
+}
+
+.btoc-container li > ul > li > ul > li >a {
+  display: block;
+  padding-top:    3px;
+  padding-bottom: 3px;
+  font-size: 90%;
+  text-decoration: none;
+}
+
+.btoc-container li > ul > li > ul > li > a:hover,
+.btoc-container li > ul > li > ul > li > a:focus {
+  text-decoration: none;
+  background-color: #e5e3e9;
+  border-right: 8px solid #EEE;
+}
+.btoc-container li > ul > li.active > ul {
+    display: block;
+}
+.btoc-container li > ul > li > ul > .active > a,
+.btoc-container li > ul > li > ul > .active:hover > a,
+.btoc-container li > ul > li > ul > .active:focus > a {
+  /*font-weight: bold;*/
+  color: #888;
+  background-color: transparent;
+  border-right: 8px solid #AAA;
+}
+
+/* Show and affix the side nav when space allows it */
+@media screen and (min-width: 992px) {
+  .btoc-container .nav > .active > ul {
+    display: block;
+  }
+  /* Widen the fixed sidebar */
+  .btoc-container.affix,
+  .btoc-container.affix-bottom {
+    width: 213px;
+  }
+  .btoc-container.affix {
+    position: fixed; /* Undo the static from mobile first approach */
+    top: 80px;
+  }
+  .btoc-container.affix-bottom {
+    position: absolute; /* Undo the static from mobile first approach */
+  }
+  .btoc-container.affix-bottom .btoc-nav,
+  .btoc-container.affix .btoc-nav {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+@media screen and (min-width: 1200px) {
+  /* Widen the fixed sidebar again */
+  .btoc-container.affix-bottom,
+  .btoc-container.affix {
+    width: 263px;
+  }
+}
