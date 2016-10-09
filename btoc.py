@@ -63,24 +63,25 @@ def btoc(content):
 
     for heading in headings:
         this_num = int(heading.name[-1])
+        if heading.string:
+            anchor = heading.string.strip().lower().replace(' ', '-').replace('.', '').replace('(','').replace(')', '')
 
-        anchor = heading.string.strip().lower().replace(' ', '-').replace('.', '').replace('(','').replace(')', '')
-        if anchor not in headers:
-            headers.append(anchor)
-        else:
-            id = 1
-            for item in headers:
-                if item.startswith(anchor+'-'):
-                    id += 1
-            anchor += '-' + str(id)
-            headers.append(anchor)
+            if anchor not in headers:
+                headers.append(anchor)
+            else:
+                id = 1
+                for item in headers:
+                    if item.startswith(anchor+'-'):
+                        id += 1
+                anchor += '-' + str(id)
+                headers.append(anchor)
 
-        heading['id'] = anchor
-        tocc.append({
-            'level': this_num,
-            'anchor': anchor,
-            'title': heading.string.strip()
-        })
+            heading['id'] = anchor
+            tocc.append({
+                'level': this_num,
+                'anchor': anchor,
+                'title': heading.string.strip()
+            })
 
     toc_html = "\n"+'<ul class="nav btoc-nav">'+"\n"
     for i in range(0, len(tocc)):
