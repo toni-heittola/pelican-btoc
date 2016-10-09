@@ -106,6 +106,17 @@ def btoc(content):
 
     toc_html += '</ul>'+"\n"
 
+    toc_element_default = None
+    if not toc_element_default:  # default Markdown reader
+        toc_element_default = soup.find('div', class_='toc')
+        btoc_settings['show'] = True
+    if not toc_element_default:  # default reStructuredText reader
+        toc_element_default = soup.find('div', class_='contents topic')
+        btoc_settings['show'] = True
+    if not toc_element_default:  # Pandoc reader
+        toc_element_default = soup.find('nav', id='TOC')
+        btoc_settings['show'] = True
+
     if btoc_settings['show']:
         if btoc_settings['minified']:
             html_elements = {
@@ -138,15 +149,8 @@ def btoc(content):
             if element not in content.metadata[u'styles']:
                 content.metadata[u'styles'].append(element)
 
-        toc_element = None
-        if not toc_element:  # default Markdown reader
-            toc_element = soup.find('div', class_='toc')
-        if not toc_element:  # default reStructuredText reader
-            toc_element = soup.find('div', class_='contents topic')
-        if not toc_element:  # Pandoc reader
-            toc_element = soup.find('nav', id='TOC')
-        if toc_element:
-            toc_element.extract()  # remove from tree
+        if toc_element_default:
+            toc_element_default.extract()  # remove from tree
 
         template = Template(btoc_settings['template'].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
 
@@ -157,7 +161,6 @@ def btoc(content):
 
         content._content = soup.decode()
         content.toc = toc_element2.decode()
-
 
 def process_page_metadata(generator, metadata):
     """
