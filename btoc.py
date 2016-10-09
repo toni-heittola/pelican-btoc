@@ -52,7 +52,7 @@ def btoc(content):
     soup = BeautifulSoup(content._content, 'html.parser')
 
     btoc_settings['levels'].sort()
-    #numbering = [[level, 0] for level in btoc_default_settings['levels']]
+    #numbering = [[level, 0] for level in btoc_settings['levels']]
 
     heading_regex = '|'.join([str(level) for level in btoc_settings['levels']])
     search = re.compile('^h(%s)$' % (heading_regex))
@@ -154,8 +154,6 @@ def btoc(content):
                                                      toc_header=btoc_settings['header']
                                                      ), "html.parser")
 
-        #bibtex_div.prettify()
-        #toc_element2 = BeautifulSoup(toc_html, "html.parser")
         content._content = soup.decode()
         content.toc = toc_element2.decode()
 
@@ -183,6 +181,9 @@ def process_page_metadata(generator, metadata):
 
     if u'btoc_panel_color' in metadata:
         btoc_settings['panel_color'] = metadata['btoc_panel_color']
+
+    if u'btoc_header' in metadata:
+        btoc_settings['header'] = metadata['btoc_header']
 
 
 def move_resources(gen):
