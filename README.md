@@ -38,9 +38,11 @@ Make sure the directory where the plugin was installed is set in `pelicanconf.py
 
     PLUGIN_PATHS = ['plugins']
 
-Enable pelican-btoc:
+Enable `pelican-btoc` with:
 
     PLUGINS = ['pelican-btoc']
+
+`pelican-btoc` should be the last in the plugin list, if you are using plugins which generate content. Otherwise generated content will not be taken account when generating TOC. 
 
 To allow plugin in include css and js files, one needs to add following to the `base.html` template, in the head (to include css files):
 
