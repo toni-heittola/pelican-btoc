@@ -162,7 +162,7 @@ def btoc(content):
 
 def process_page_metadata(generator, metadata):
     """
-    Process page metadata and assing css and styles
+    Process page metadata and assign css and styles
 
     """
     global btoc_settings
@@ -198,7 +198,12 @@ def move_resources(gen):
             minify_js_directory(gen=gen, source='js', target='js.min')
 
         css_target = os.path.join(gen.output_path, 'theme', 'css', 'btoc.min.css')
+        if not os.path.exists(os.path.join(gen.output_path, 'theme', 'css')):
+            os.makedirs(os.path.join(gen.output_path, 'theme', 'css'))
+
         js_target = os.path.join(gen.output_path, 'theme', 'js', 'btoc.min.js')
+        if not os.path.exists(os.path.join(gen.output_path, 'theme', 'js')):
+            os.makedirs(os.path.join(gen.output_path, 'theme', 'js'))
 
         for path in plugin_paths:
             css_source = os.path.join(path, 'pelican-btoc', 'css.min', 'btoc.min.css')
@@ -214,7 +219,12 @@ def move_resources(gen):
                 break
     else:
         css_target = os.path.join(gen.output_path, 'theme', 'css', 'btoc.css')
+        if not os.path.exists(os.path.join(gen.output_path, 'theme', 'css')):
+            os.makedirs(os.path.join(gen.output_path, 'theme', 'css'))
+
         js_target = os.path.join(gen.output_path, 'theme', 'js', 'btoc.js')
+        if not os.path.exists(os.path.join(gen.output_path, 'theme', 'js')):
+            os.makedirs(os.path.join(gen.output_path, 'theme', 'js'))
 
         for path in plugin_paths:
             css_source = os.path.join(path, 'pelican-btoc', 'css', 'btoc.css')
@@ -249,7 +259,6 @@ def minify_css_directory(gen, source, target):
                 for current_file in files:
                     if current_file.endswith(".css"):
                         current_file_path = os.path.join(root, current_file)
-                        print current_file_path, target_
                         with open(current_file_path) as css_file:
                             with open(os.path.join(target_, current_file.replace('.css', '.min.css')), "w") as minified_file:
                                 minified_file.write(rcssmin.cssmin(css_file.read(), keep_bang_comments=True))
@@ -276,7 +285,6 @@ def minify_js_directory(gen, source, target):
                 for current_file in files:
                     if current_file.endswith(".js"):
                         current_file_path = os.path.join(root, current_file)
-                        print current_file_path, target_
                         with open(current_file_path) as js_file:
                             with open(os.path.join(target_, current_file.replace('.js', '.min.js')), "w") as minified_file:
                                 minified_file.write(jsmin(js_file.read()))
