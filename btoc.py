@@ -109,13 +109,16 @@ def btoc(content):
     toc_element_default = None
     if not toc_element_default:  # default Markdown reader
         toc_element_default = soup.find('div', class_='toc')
-        btoc_settings['show'] = True
+        if toc_element_default:
+            btoc_settings['show'] = True
     if not toc_element_default:  # default reStructuredText reader
         toc_element_default = soup.find('div', class_='contents topic')
-        btoc_settings['show'] = True
+        if toc_element_default:
+            btoc_settings['show'] = True
     if not toc_element_default:  # Pandoc reader
         toc_element_default = soup.find('nav', id='TOC')
-        btoc_settings['show'] = True
+        if toc_element_default:
+            btoc_settings['show'] = True
 
     if btoc_settings['show']:
         if btoc_settings['minified']:
@@ -188,7 +191,6 @@ def process_page_metadata(generator, metadata):
 
     if u'btoc_header' in metadata:
         btoc_settings['header'] = metadata['btoc_header']
-
 
 def move_resources(gen):
     """
