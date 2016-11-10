@@ -124,19 +124,19 @@ def btoc(content):
         if btoc_settings['minified']:
             html_elements = {
                 'js_include': [
-                    '<script type="text/javascript" src="theme/js/btoc.min.js"></script>'
+                    '<script type="text/javascript" src="/theme/js/btoc.min.js"></script>'
                 ],
                 'css_include': [
-                    '<link rel="stylesheet" href="theme/css/btoc.min.css">'
+                    '<link rel="stylesheet" href="/theme/css/btoc.min.css">'
                 ]
             }
         else:
             html_elements = {
                 'js_include': [
-                    '<script type="text/javascript" src="theme/js/btoc.js"></script>'
+                    '<script type="text/javascript" src="/theme/js/btoc.js"></script>'
                 ],
                 'css_include': [
-                    '<link rel="stylesheet" href="theme/css/btoc.css">'
+                    '<link rel="stylesheet" href="/theme/css/btoc.css">'
                 ]
             }
 
@@ -165,6 +165,7 @@ def btoc(content):
         content._content = soup.decode()
         content.toc = toc_element2.decode()
 
+
 def process_page_metadata(generator, metadata):
     """
     Process page metadata and assign css and styles
@@ -191,6 +192,7 @@ def process_page_metadata(generator, metadata):
 
     if u'btoc_header' in metadata:
         btoc_settings['header'] = metadata['btoc_header']
+
 
 def move_resources(gen):
     """
