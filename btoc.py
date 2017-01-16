@@ -35,6 +35,7 @@ btoc_default_settings = {
     'show': False,
     'minified': True,
     'generate_minified': False,
+    'site-url': ''
 }
 
 btoc_settings = copy.deepcopy(btoc_default_settings)
@@ -124,19 +125,19 @@ def btoc(content):
         if btoc_settings['minified']:
             html_elements = {
                 'js_include': [
-                    '<script type="text/javascript" src="/theme/js/btoc.min.js"></script>'
+                    '<script type="text/javascript" src="'+btoc_default_settings['site-url']+'/theme/js/btoc.min.js"></script>'
                 ],
                 'css_include': [
-                    '<link rel="stylesheet" href="/theme/css/btoc.min.css">'
+                    '<link rel="stylesheet" href="'+btoc_default_settings['site-url']+'/theme/css/btoc.min.css">'
                 ]
             }
         else:
             html_elements = {
                 'js_include': [
-                    '<script type="text/javascript" src="/theme/js/btoc.js"></script>'
+                    '<script type="text/javascript" src="'+btoc_default_settings['site-url']+'/theme/js/btoc.js"></script>'
                 ],
                 'css_include': [
-                    '<link rel="stylesheet" href="/theme/css/btoc.css">'
+                    '<link rel="stylesheet" href="'+btoc_default_settings['site-url']+'/theme/css/btoc.css">'
                 ]
             }
 
@@ -305,6 +306,8 @@ def init_default_config(pelican):
 
     """
 
+    btoc_default_settings['site-url'] = pelican.settings['SITEURL']
+
     if 'BTOC_LEVELS' in pelican.settings:
         btoc_default_settings['levels'] = pelican.settings['BTOC_LEVELS']
 
@@ -322,7 +325,6 @@ def init_default_config(pelican):
 
     if 'BTOC_GENERATE_MINIFIED' in pelican.settings:
         btoc_default_settings['generate_minified'] = pelican.settings['BTOC_GENERATE_MINIFIED']
-
 
 def register():
     """
