@@ -108,6 +108,10 @@ def btoc(content):
     toc_html += '</ul>'+"\n"
 
     toc_element_default = None
+    if not toc_element_default:  # [TOC]
+        toc_element_default = soup.find(text='[TOC]')
+        if toc_element_default:
+            btoc_settings['show'] = True
     if not toc_element_default:  # default Markdown reader
         toc_element_default = soup.find('div', class_='toc')
         if toc_element_default:
