@@ -1,4 +1,3 @@
-
 !function ($) {
   $(function(){
 
@@ -28,21 +27,5 @@
         }
       })
     }, 100)
-
-    /*
-    setTimeout(function () {
-      $('.bs-top').affix()
-    }, 100)
-
-    $('.bs-docs-navbar').tooltip({
-      selector: "a[data-toggle=tooltip]",
-      container: ".bs-docs-navbar .nav"
-    })
-
-    $('.bs-docs-container [href=#]').click(function (e) {
-      e.preventDefault()
-    })
-    */
   })
-
 }(window.jQuery)
