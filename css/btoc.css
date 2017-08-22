@@ -104,6 +104,7 @@
   }
   /* Widen the fixed sidebar */
   .btoc-container.affix,
+  .btoc-container.affix-top,
   .btoc-container.affix-bottom {
     width: 213px;
   }
@@ -122,6 +123,7 @@
 }
 @media screen and (min-width: 1200px) {
   /* Widen the fixed sidebar again */
+  .btoc-container.affix-top,
   .btoc-container.affix-bottom,
   .btoc-container.affix {
     width: 263px;
