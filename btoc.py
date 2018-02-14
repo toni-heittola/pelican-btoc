@@ -53,7 +53,6 @@ def btoc(content):
     soup = BeautifulSoup(content._content, 'html.parser')
 
     btoc_settings['levels'].sort()
-    #numbering = [[level, 0] for level in btoc_settings['levels']]
 
     heading_regex = '|'.join([str(level) for level in btoc_settings['levels']])
     search = re.compile('^h(%s)$' % (heading_regex))
@@ -64,11 +63,20 @@ def btoc(content):
 
     for heading in headings:
         this_num = int(heading.name[-1])
+        title = None
         if heading.string:
-            anchor = heading.string.strip().lower().replace(' ', '-').replace('.', '').replace('(','').replace(')', '')
+            title = heading.string.strip()
 
+        elif heading.img:
+            title = heading.img.get('alt', None)
+            if not title:
+                title = heading.img.get('title', None)
+        if title:
+            title = title.strip()
+            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '')
             if anchor not in headers:
                 headers.append(anchor)
+
             else:
                 id = 1
                 for item in headers:
@@ -81,15 +89,17 @@ def btoc(content):
             tocc.append({
                 'level': this_num,
                 'anchor': anchor,
-                'title': heading.string.strip()
+                'title': title
             })
 
     toc_html = "\n"+'<ul class="nav btoc-nav">'+"\n"
     for i in range(0, len(tocc)):
         toc_html += tocc[i]['level']*" " + "<li>"
         toc_html += '<a href="#' + tocc[i]['anchor'] + '">' + tocc[i]['title'] + '</a>'
+
         if (i+1) < len(tocc):
             next_i = i+1
+
         else:
             next_i = i
 
@@ -110,18 +120,25 @@ def btoc(content):
     toc_element_default = None
     if not toc_element_default:  # [TOC]
         toc_element_default = soup.find(text='[TOC]')
+
         if toc_element_default:
             btoc_settings['show'] = True
+
     if not toc_element_default:  # default Markdown reader
         toc_element_default = soup.find('div', class_='toc')
+
         if toc_element_default:
             btoc_settings['show'] = True
+
     if not toc_element_default:  # default reStructuredText reader
         toc_element_default = soup.find('div', class_='contents topic')
+
         if toc_element_default:
             btoc_settings['show'] = True
+
     if not toc_element_default:  # Pandoc reader
         toc_element_default = soup.find('nav', id='TOC')
+
         if toc_element_default:
             btoc_settings['show'] = True
 
@@ -135,6 +152,7 @@ def btoc(content):
                     '<link rel="stylesheet" href="'+btoc_default_settings['site-url']+'/theme/css/btoc.min.css">'
                 ]
             }
+
         else:
             html_elements = {
                 'js_include': [
@@ -147,12 +165,14 @@ def btoc(content):
 
         if u'scripts' not in content.metadata:
             content.metadata[u'scripts'] = []
+
         for element in html_elements['js_include']:
             if element not in content.metadata[u'scripts']:
                 content.metadata[u'scripts'].append(element)
 
         if u'styles' not in content.metadata:
             content.metadata[u'styles'] = []
+
         for element in html_elements['css_include']:
             if element not in content.metadata[u'styles']:
                 content.metadata[u'styles'].append(element)
@@ -162,10 +182,14 @@ def btoc(content):
 
         template = Template(btoc_settings['template'].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
 
-        toc_element2 = BeautifulSoup(template.render(toc=toc_html,
-                                                     panel_color=btoc_settings['panel_color'],
-                                                     toc_header=btoc_settings['header']
-                                                     ), "html.parser")
+        toc_element2 = BeautifulSoup(
+            template.render(
+                toc=toc_html,
+                panel_color=btoc_settings['panel_color'],
+                toc_header=btoc_settings['header']
+            )
+            , "html.parser"
+        )
 
         content._content = soup.decode()
         content.toc = toc_element2.decode()
@@ -186,6 +210,7 @@ def process_page_metadata(generator, metadata):
 
     if u'btoc' in metadata and metadata['btoc'] == 'True':
         btoc_settings['show'] = True
+
     else:
         btoc_settings['show'] = False
 
@@ -265,6 +290,7 @@ def minify_css_directory(gen, source, target):
     for path in plugin_paths:
         source_ = os.path.join(path, 'pelican-btoc', source)
         target_ = os.path.join(path, 'pelican-btoc', target)
+
         if os.path.isdir(source_):
             if not os.path.exists(target_):
                 os.makedirs(target_)
