@@ -110,7 +110,7 @@
   }
   .btoc-container.affix {
     position: fixed; /* Undo the static from mobile first approach */
-    top: 80px;
+    top: 110px;
   }
   .btoc-container.affix-bottom {
     position: absolute; /* Undo the static from mobile first approach */

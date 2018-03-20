@@ -1,10 +1,9 @@
-
 !function ($) {
   $(function(){
 
-    var $window = $(window)
-    var $body   = $(document.body)
-    var navHeight = $('.navbar').outerHeight(true) + 10
+    var $window = $(window);
+    var $body   = $(document.body);
+    var navHeight = $('.navbar').outerHeight(true) + 10;
 
     $body.scrollspy({
       target: '.btoc-container',
@@ -19,30 +18,23 @@
       $('.btoc-container').affix({
         offset: {
           top: function () {
-            var offsetTop = $('.btoc-container').offset().top
+            var offsetTop = $('.btoc-container').offset().top;
             return (this.top = offsetTop)
-          }
-        , bottom: function () {
+          },
+          bottom: function () {
             return (this.bottom = $('.footer').outerHeight(true))
           }
         }
       })
     }, 100)
 
-    /*
-    setTimeout(function () {
-      $('.bs-top').affix()
-    }, 100)
+    $(".btoc-container a[href^='#']").on('click', function(e){
+        // prevent default anchor click behavior
+        e.preventDefault();
+        $('html, body').animate( { scrollTop: $(this.hash).offset().top - navHeight + 60}, 300, function() { });
+        location.hash = this.hash;
+    });
 
-    $('.bs-docs-navbar').tooltip({
-      selector: "a[data-toggle=tooltip]",
-      container: ".bs-docs-navbar .nav"
-    })
-
-    $('.bs-docs-container [href=#]').click(function (e) {
-      e.preventDefault()
-    })
-    */
   })
 
 }(window.jQuery)
