@@ -42,8 +42,6 @@ Enable `pelican-btoc` with:
 
     PLUGINS = ['pelican-btoc']
 
-`pelican-btoc` should be the last in the plugin list, if you are using plugins which generate content. Otherwise generated content will not be taken account when generating TOC. 
-
 To allow plugin in include css and js files, one needs to add following to the `base.html` template, in the head (to include css files):
 
     {% if article %}
@@ -108,7 +106,7 @@ Parameters for the plugin can be set in  `pelicanconf.py' with following paramet
 | BTOC_TEMPLATE             | String    |               | Jinja2 template to wrap the TOC. Parameters `panel_color`, `toc_header`, and `toc`. |
 | BTOC_MINIFIED             | Boolean   | True          | Do we use minified CSS and JS files. Disable in case of debugging.  |
 | BTOC_GENERATE_MINIFIED    | Boolean   | False         | CSS and JS files are minified each time, Enable in case of development.   |
-
+| BTOC_DEBUG_PROCESSING     | Boolean   | False         | Show extra information in when run with `DEBUG=1` |
 
 ## Content wise parameters
 

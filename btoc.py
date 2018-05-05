@@ -13,6 +13,7 @@ import copy
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from pelican import signals, contents
+from pelican.generators import ArticlesGenerator, PagesGenerator
 import re
 
 logger = logging.getLogger(__name__)
@@ -35,7 +36,8 @@ btoc_default_settings = {
     'show': False,
     'minified': True,
     'generate_minified': False,
-    'site-url': ''
+    'site-url': '',
+    'debug_processing': False
 }
 
 btoc_settings = copy.deepcopy(btoc_default_settings)
@@ -50,13 +52,43 @@ def btoc(content):
     if isinstance(content, contents.Static):
         return
 
-    soup = BeautifulSoup(content._content, 'html.parser')
+    # Process page metadata and assign css and styles
+    btoc_settings = copy.deepcopy(btoc_default_settings)  # page wise settings
+
+    if u'styles' not in content.metadata:
+        content.metadata[u'styles'] = []
+    if u'scripts' not in content.metadata:
+        content.metadata[u'scripts'] = []
+
+    if u'btoc' in content.metadata and content.metadata['btoc'] == 'True':
+        btoc_settings['show'] = True
+
+    else:
+        btoc_settings['show'] = False
+
+    if u'btoc_levels' in content.metadata:
+        btoc_settings['levels'] = map(int, content.metadata['btoc_levels'].split(','))
+
+    if u'btoc_panel_color' in content.metadata:
+        btoc_settings['panel_color'] = content.metadata['btoc_panel_color']
+
+    if u'btoc_header' in content.metadata:
+        btoc_settings['header'] = content.metadata['btoc_header']
 
     btoc_settings['levels'].sort()
+
+    soup = BeautifulSoup(content._content, 'html.parser')
 
     heading_regex = '|'.join([str(level) for level in btoc_settings['levels']])
     search = re.compile('^h(%s)$' % (heading_regex))
     headings = soup.findAll(search)
+
+    if btoc_settings['debug_processing'] and btoc_settings['show']:
+        logger.debug(msg='[{plugin_name}] title:[{title}] headings:[{heading_count}]'.format(
+            plugin_name='btoc',
+            title=content.title,
+            heading_count=len(headings)
+        ))
 
     headers = []
     tocc = []
@@ -195,35 +227,6 @@ def btoc(content):
         content.toc = toc_element2.decode()
 
 
-def process_page_metadata(generator, metadata):
-    """
-    Process page metadata and assign css and styles
-
-    """
-    global btoc_settings
-    btoc_settings = copy.deepcopy(btoc_default_settings)  # page wise settings
-
-    if u'styles' not in metadata:
-        metadata[u'styles'] = []
-    if u'scripts' not in metadata:
-        metadata[u'scripts'] = []
-
-    if u'btoc' in metadata and metadata['btoc'] == 'True':
-        btoc_settings['show'] = True
-
-    else:
-        btoc_settings['show'] = False
-
-    if u'btoc_levels' in metadata:
-        btoc_settings['levels'] = map(int, metadata['btoc_levels'].split(','))
-
-    if u'btoc_panel_color' in metadata:
-        btoc_settings['panel_color'] = metadata['btoc_panel_color']
-
-    if u'btoc_header' in metadata:
-        btoc_settings['header'] = metadata['btoc_header']
-
-
 def move_resources(gen):
     """
     Move files from js/css folders to output folder, use minified files.
@@ -356,6 +359,26 @@ def init_default_config(pelican):
     if 'BTOC_GENERATE_MINIFIED' in pelican.settings:
         btoc_default_settings['generate_minified'] = pelican.settings['BTOC_GENERATE_MINIFIED']
 
+    if 'BTOC_DEBUG_PROCESSING' in pelican.settings:
+        btoc_default_settings['debug_processing'] = pelican.settings['BTOC_DEBUG_PROCESSING']
+
+
+def run_plugin(generators):
+    """
+    Run plugin to generators
+
+    """
+
+    for generator in generators:
+        if isinstance(generator, ArticlesGenerator):
+            for article in generator.articles:
+                btoc(article)
+
+        if isinstance(generator, PagesGenerator):
+            for page in generator.pages:
+                btoc(page)
+
+
 def register():
     """
     Register signals
@@ -363,8 +386,5 @@ def register():
     """
 
     signals.initialized.connect(init_default_config)
-    signals.article_generator_context.connect(process_page_metadata)
-    signals.page_generator_context.connect(process_page_metadata)
-
-    signals.content_object_init.connect(btoc)
     signals.article_generator_finalized.connect(move_resources)
+    signals.all_generators_finalized.connect(run_plugin)
