@@ -67,7 +67,7 @@ def btoc(content):
         btoc_settings['show'] = False
 
     if u'btoc_levels' in content.metadata:
-        btoc_settings['levels'] = map(int, content.metadata['btoc_levels'].split(','))
+        btoc_settings['levels'] = list(map(int, content.metadata['btoc_levels'].split(',')))
 
     if u'btoc_panel_color' in content.metadata:
         btoc_settings['panel_color'] = content.metadata['btoc_panel_color']
