@@ -15,6 +15,7 @@ from jinja2 import Template
 from pelican import signals, contents
 from pelican.generators import ArticlesGenerator, PagesGenerator
 import re
+import unicodedata
 
 logger = logging.getLogger(__name__)
 __version__ = '0.1.0'
@@ -105,7 +106,9 @@ def btoc(content):
                 title = heading.img.get('title', None)
         if title:
             title = title.strip()
-            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '')
+            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '')
+            anchor = unicodedata.normalize('NFKD', anchor).encode('ascii', 'ignore').decode('utf-8')
+
             if anchor not in headers:
                 headers.append(anchor)
 
