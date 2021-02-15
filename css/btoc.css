@@ -9,7 +9,6 @@
   background-color: #f7f5fa;
 }
 
-
 /* All levels of nav */
 .btoc-container .nav > li > a {
   display: block;
@@ -129,3 +128,29 @@
     width: 263px;
   }
 }
+.btoc-alphabet {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.btoc-alphabet  ul{
+  padding-left: 10px;
+}
+.btoc-alphabet > li {
+  display: inline-flex;
+  padding: 0px;
+  width: 20px;
+}
+.btoc-alphabet > li a {
+  padding: 3px 3px !important;
+}
+.btoc-alphabet > .active {
+  display: block;
+  width: inherit;
+}
+
+.btoc-alphabet > li > a:hover,
+.btoc-alphabet > li > a:focus {
+  border: none !important;
+  border-radius: 10px;
+}
+

@@ -36,7 +36,8 @@ btoc_default_settings = {
     """,
     'show': False,
     'minified': True,
-    'generate_minified': False,
+    'type': 'normal',  # normal, dictionary
+    'generate_minified': True,
     'site-url': '',
     'debug_processing': False
 }
@@ -75,6 +76,9 @@ def btoc(content):
 
     if u'btoc_header' in content.metadata:
         btoc_settings['header'] = content.metadata['btoc_header']
+
+    if u'btoc_type' in content.metadata:
+        btoc_settings['type'] = content.metadata['btoc_type']
 
     btoc_settings['levels'].sort()
 
@@ -127,7 +131,11 @@ def btoc(content):
                 'title': title
             })
 
-    toc_html = "\n"+'<ul class="nav btoc-nav">'+"\n"
+    if btoc_settings['type'] == 'alphabet':
+        toc_html = "\n" + '<ul class="nav btoc-nav btoc-alphabet">' + "\n"
+    else:
+        toc_html = "\n"+'<ul class="nav btoc-nav">'+"\n"
+
     for i in range(0, len(tocc)):
         toc_html += tocc[i]['level']*" " + "<li>"
         toc_html += '<a href="#' + tocc[i]['anchor'] + '">' + tocc[i]['title'] + '</a>'
@@ -352,6 +360,9 @@ def init_default_config(pelican):
 
     if 'BTOC_HEADER' in pelican.settings:
         btoc_default_settings['header'] = pelican.settings['BTOC_HEADER']
+
+    if 'BTOC_TYPE' in pelican.settings:
+        btoc_default_settings['type'] = pelican.settings['BTOC_TYPE']
 
     if 'BTOC_TEMPLATE' in pelican.settings:
         btoc_default_settings['template'] = pelican.settings['BTOC_TEMPLATE']

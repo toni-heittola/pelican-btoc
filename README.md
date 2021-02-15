@@ -107,22 +107,25 @@ Parameters for the plugin can be set in  `pelicanconf.py' with following paramet
 | BTOC_MINIFIED             | Boolean   | True          | Do we use minified CSS and JS files. Disable in case of debugging.  |
 | BTOC_GENERATE_MINIFIED    | Boolean   | False         | CSS and JS files are minified each time, Enable in case of development.   |
 | BTOC_DEBUG_PROCESSING     | Boolean   | False         | Show extra information in when run with `DEBUG=1` |
+| BTOC_TYPE                 | String    | 'normal'      | Toc type, possible values `normal` and `alphabet`. Use `alphabet` for glossary type of pages with 1-3 letter headings.  |
 
 ## Content wise parameters
 
 | Parameter                 | Example value     | Description  |
-|---------------------------|-----------|--------------|
-| BTOC                      | True      | Enable TOC for the page
-| BTOC_LEVELS               | 1,2     | Comma separated integers, Indicates the levels of headers which are included into TOC  |
-| BTOC_PANEL_COLOR          | panel-primary | CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
+|---------------------------|-------------------|--------------|
+| BTOC                      | True              | Enable TOC for the page
+| BTOC_LEVELS               | 1,2               | Comma separated integers, Indicates the levels of headers which are included into TOC  |
+| BTOC_PANEL_COLOR          | panel-primary     | CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
+| BTOC_TYPE                 | normal            | Toc type, possible values `normal` and `alphabet`. Use `alphabet` for glossary type of pages with 1-3 letter headings.  |
 
-Example:
+Example 1:
 
     Title: TOC
     Date: 2010-10-03 10:20
     BTOC: True
     BTOC_LEVELS: 1,2,3
-    
+    BTOC_TYPE: normal
+
     # H1
     Text
         
@@ -170,3 +173,21 @@ Example:
     
     Text
 
+Example 2:
+
+    Title: TOC
+    Date: 2010-10-03 10:20
+    BTOC: True
+    BTOC_LEVELS: 1,2,3
+    BTOC_TYPE: aplhabet
+
+    # A
+    ## Apples 1
+    ## Apples 2
+    ## Apples 3
+
+    # O
+    ## Oranges 1
+    ## Oranges 2
+    ## Oranges 3
+    
