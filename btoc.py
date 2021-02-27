@@ -37,7 +37,7 @@ btoc_default_settings = {
     'show': False,
     'minified': True,
     'type': 'normal',  # normal, dictionary
-    'generate_minified': True,
+    'generate_minified': False,
     'site-url': '',
     'debug_processing': False
 }
@@ -110,7 +110,7 @@ def btoc(content):
                 title = heading.img.get('title', None)
         if title:
             title = title.strip()
-            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '')
+            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '').replace('?', '')
             anchor = unicodedata.normalize('NFKD', anchor).encode('ascii', 'ignore').decode('utf-8')
 
             if anchor not in headers:
