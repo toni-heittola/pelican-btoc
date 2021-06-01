@@ -110,7 +110,7 @@ def btoc(content):
                 title = heading.img.get('title', None)
         if title:
             title = title.strip()
-            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '').replace('?', '')
+            anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '').replace('?', '').replace(',', '').replace(':', '').replace(';', '').replace('#', '')
             anchor = unicodedata.normalize('NFKD', anchor).encode('ascii', 'ignore').decode('utf-8')
 
             if anchor not in headers:
