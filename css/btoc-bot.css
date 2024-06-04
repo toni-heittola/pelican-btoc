@@ -1,0 +1,190 @@
+/*body a.toc-link{
+    color: wheat;
+}
+
+body a.toc-link.clicked {
+  color:red;
+}*/
+
+.toc {
+    padding: 2rem;
+    background-color: #f8fafc;
+}
+
+.btoc-container .toc{
+    overflow-y:auto
+}
+.btoc-container .toc>.toc-list{
+    overflow:hidden;position:relative
+}
+.btoc-container .toc>.toc-list li{
+    list-style:none
+}
+.btoc-nav > .toc-list{
+    margin: 0;
+    padding-left: 0px;
+    list-style-type: none !important;
+}
+.btoc-nav > .toc-list > li > .toc-list,
+.btoc-nav > .toc-list > li > .toc-list > li > .toc-list,
+.btoc-nav > .toc-list > li > .toc-list > li > .toc-list > li > .toc-list{
+    margin: 0;
+    padding-left: 10px;
+    list-style-type: none !important;
+}
+
+a.toc-link{
+    color:currentColor;
+    height:100%;
+    text-decoration: none !important;
+}
+
+.btoc-container .is-collapsible{
+    max-height: 1000px;
+    overflow: hidden;
+    transition: all 100ms ease-in-out;
+}
+.btoc-container .is-collapsed{
+    max-height: 0;
+}
+.btoc-container .is-position-fixed{
+    position:fixed !important;
+    top:0;
+}
+
+/*
+.btoc-container .toc-link::before{
+    background-color:#eee;
+    content:" ";
+    display:inline-block;
+    height:inherit;
+    left:0;
+    margin-top:-1px;
+    position:absolute;
+    width:2px
+}
+.btoc-container .is-active-link::before{
+    background-color:#333;
+}*/
+
+.btoc-container {
+    top: 32px;
+
+    margin-bottom: 20px;
+
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.btoc-container > .btoc-header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.btoc-container > .btoc-body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 6px;
+}
+
+.btoc-container li.toc-list-item > a {
+  display: block;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #716b7a;
+  border-right: 8px solid transparent;
+}
+
+.btoc-container li.toc-list-item.is-active-li > a{
+    font-weight:700
+}
+
+.btoc-container li.toc-list-item > a:hover,
+.btoc-container li.toc-list-item > a:focus {
+  /*padding-left: 16px;*/
+  /*color: #563d7c;*/
+  /*background-color: transparent;*/
+  text-decoration: none;
+  border-right: 8px solid #AAA;
+  background-color: #e5e3e9;
+}
+.btoc-container li.toc-list-item.is-active-li > a,
+.btoc-container li.toc-list-item.is-active-li > a:hover,
+.btoc-container li.toc-list-item.is-active-li > a:focus {
+  font-weight: bold;
+  color: #000;
+  background-color: transparent;
+  border-right: 8px solid #333;
+}
+
+
+.btoc-alphabet li.toc-list-item > a:hover,
+.btoc-alphabet li.toc-list-item > a:focus {
+  /*text-decoration: none !important;
+  border-right: none !important;
+  background-color: #e5e3e9 !important;*/
+}
+
+.btoc-alphabet {}
+
+.btoc-alphabet > ul.toc-list{
+  padding-left: 10px !important;
+  overflow: auto;
+}
+
+.btoc-alphabet > ul.toc-list > li.toc-list-item {
+  display: inline-block !important;
+  padding: 0px !important;
+  min-width: 50px !important;
+}
+
+.btoc-alphabet > ul.toc-list > li.toc-list-item > a {
+  display: block;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #716b7a;
+}
+.btoc-alphabet > ul.toc-list > li.toc-list-item > a:hover,
+.btoc-alphabet > ul.toc-list > li.toc-list-item > a:focus {
+  border-right: 0px solid transparent;
+  background-color: #e5e3e9;
+}
+.btoc-alphabet > ul.toc-list > li.toc-list-item.is-active-li > a,
+.btoc-alphabet > ul.toc-list > li.toc-list-item.is-active-li > a:hover,
+.btoc-alphabet > ul.toc-list > li.toc-list-item.is-active-li > a:focus {
+  font-weight: 700;
+  background-color: transparent;
+  border-right: 0px solid transparent;
+}
+
+.btoc-alphabet > ul.toc-list > li.toc-list-item > ul.toc-list {
+  display: none;
+}
+.btoc-alphabet > ul.toc-list > li.toc-list-item.is-active-li > ul.toc-list {
+  display: block !important;
+}
+.btoc-alphabet > ul.toc-list > li.toc-list-item.is-active-li,
+.btoc-alphabet > ul.toc-list > li.toc-list-item:has(ul.toc-list > li.is-active-li) {
+  display: block !important;
+  clear: both;
+}
+.btoc-alphabet > ul.toc-list > li.toc-list-item > ul.toc-list:has(li.is-active-li){
+  display: block !important;
+  clear: both;
+}

@@ -1,11 +1,12 @@
 Pelican-btoc - Automatic generation of TOC for Pelican
 ======================================================
 
-`pelican-btoc` is an open source Pelican plugin to produce table of content for content page. Plugin is based on bootstrap components `scrollspy` and `affix`. The plugin is inspired by the similar TOC in the [Bootstrap documentation page](http://getbootstrap.com/). The plugin is mostly developed to be used with Markdown content. 
+`pelican-btoc` is an open source Pelican plugin to produce table of content for content page.
+Plugin can be used with Bootstrap3 and Bootstrap5. For BS3, the plugin is based on bootstrap components `scrollspy` and `affix`, it is inspired by the similar TOC in the [Bootstrap documentation page](http://getbootstrap.com/). For BS5, the plugin can use [tocbot](https://tscanlin.github.io/tocbot/) or [Table of Contents plugin for Bootstrap](https://afeld.github.io/bootstrap-toc/). The plugin is mostly developed to be used with Markdown content. 
 
 **Author**
 
-Toni Heittola (toni.heittola@gmail.com), [GitHub](https://github.com/toni-heittola), [Home page](http://www.cs.tut.fi/~heittolt/)
+Toni Heittola (toni.heittola@gmail.com), [GitHub](https://github.com/toni-heittola), [Home page](https://homepages.tuni.fi/toni.heittola/)
 
 Installation instructions
 =========================
@@ -41,8 +42,6 @@ Make sure the directory where the plugin was installed is set in `pelicanconf.py
 Enable `pelican-btoc` with:
 
     PLUGINS = ['pelican-btoc']
-
-`pelican-btoc` should be the last in the plugin list, if you are using plugins which generate content. Otherwise generated content will not be taken account when generating TOC. 
 
 To allow plugin in include css and js files, one needs to add following to the `base.html` template, in the head (to include css files):
 
@@ -100,31 +99,35 @@ TOC generation is triggered for the page either by setting BTOC metadata for the
 
 Parameters for the plugin can be set in  `pelicanconf.py' with following parameters:
 
-| Parameter                 | Type      | Default       | Description  |
-|---------------------------|-----------|---------------|--------------|
-| BTOC_LEVELS               | List      | [1,2]         | List of integers, Indicates the levels of headers which are included into TOC  |
-| BTOC_PANEL_COLOR          | String    | panel-primary |  CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
-| BTOC_HEADER               | String    | Content       | Header used for the TOC panel  |
-| BTOC_TEMPLATE             | String    |               | Jinja2 template to wrap the TOC. Parameters `panel_color`, `toc_header`, and `toc`. |
-| BTOC_MINIFIED             | Boolean   | True          | Do we use minified CSS and JS files. Disable in case of debugging.  |
-| BTOC_GENERATE_MINIFIED    | Boolean   | False         | CSS and JS files are minified each time, Enable in case of development.   |
-
+| Parameter              | Type      | Default       | Description                                                                                                                                                                                                                                                                                              |
+|------------------------|-----------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BTOC_MODE              | String    | bs3           | Operation mode selector, possible values 'bs3' for bootstrap3 based themes, 'bs-toc' and 'tocbot' for boostrap5 based themes. Use 'bs-toc' only works with two first toc levels, use 'tocbot' for deaper toc                                                                                             |
+| BTOC_LEVELS            | List      | [1,2]         | List of integers, Indicates the levels of headers which are included into TOC                                                                                                                                                                                                                            |
+| BTOC_PANEL_COLOR       | String    | panel-primary | CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger in bs3, in bg-primary, bg-secondary, bg-success, bg-danger, bg-warning, bg-info, bg-light, bg-dark, bg-white, bg-transparent in bs5 |
+| BTOC_HEADER            | String    | Content       | Header used for the TOC panel                                                                                                                                                                                                                                                                            |
+| BTOC_TEMPLATE          | String    |               | Jinja2 template to wrap the TOC. Parameters `panel_color`, `toc_header`, and `toc`.                                                                                                                                                                                                                      |
+| BTOC_MINIFIED          | Boolean   | True          | Do we use minified CSS and JS files. Disable in case of debugging.                                                                                                                                                                                                                                       |
+| BTOC_GENERATE_MINIFIED | Boolean   | False         | CSS and JS files are minified each time, Enable in case of development.                                                                                                                                                                                                                                  |
+| BTOC_DEBUG_PROCESSING  | Boolean   | False         | Show extra information in when run with `DEBUG=1`                                                                                                                                                                                                                                                        |
+| BTOC_TYPE              | String    | 'normal'      | Toc type, possible values `normal` and `alphabet`. Use `alphabet` for glossary type of pages with 1-3 letter headings.                                                                                                                                                                                   |
 
 ## Content wise parameters
 
 | Parameter                 | Example value     | Description  |
-|---------------------------|-----------|--------------|
-| BTOC                      | True      | Enable TOC for the page
-| BTOC_LEVELS               | 1,2     | Comma separated integers, Indicates the levels of headers which are included into TOC  |
-| BTOC_PANEL_COLOR          | panel-primary | CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
+|---------------------------|-------------------|--------------|
+| BTOC                      | True              | Enable TOC for the page
+| BTOC_LEVELS               | 1,2               | Comma separated integers, Indicates the levels of headers which are included into TOC  |
+| BTOC_PANEL_COLOR          | panel-primary     | CSS class used to color the TOC panel in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
+| BTOC_TYPE                 | normal            | Toc type, possible values `normal` and `alphabet`. Use `alphabet` for glossary type of pages with 1-3 letter headings.  |
 
-Example:
+Example 1:
 
     Title: TOC
     Date: 2010-10-03 10:20
     BTOC: True
     BTOC_LEVELS: 1,2,3
-    
+    BTOC_TYPE: normal
+
     # H1
     Text
         
@@ -172,3 +175,21 @@ Example:
     
     Text
 
+Example 2:
+
+    Title: TOC
+    Date: 2010-10-03 10:20
+    BTOC: True
+    BTOC_LEVELS: 1,2,3
+    BTOC_TYPE: aplhabet
+
+    # A
+    ## Apples 1
+    ## Apples 2
+    ## Apples 3
+
+    # O
+    ## Oranges 1
+    ## Oranges 2
+    ## Oranges 3
+    
