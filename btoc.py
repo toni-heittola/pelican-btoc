@@ -259,7 +259,6 @@ def btoc(content):
                     'title': title
                 })
 
-
         levels =[]
         for level in btoc_settings['levels']:
             levels.append('h{level}'.format(level=level))
@@ -524,6 +523,7 @@ def move_resources(gen):
             if os.path.isfile(file['target']):
                 break
 
+
 def minify_css_directory(gen, source, target):
     """
     Move CSS resources from source directory to target directory and minify. Using rcssmin.
@@ -585,6 +585,8 @@ def init_default_config(pelican):
 
     if 'BTOC_MODE' in pelican.settings:
         btoc_default_settings['mode'] = pelican.settings['BTOC_MODE']
+        if btoc_default_settings['mode'] == 'bs5':
+            btoc_default_settings['mode'] = 'tocbot'
 
     if 'BTOC_LEVELS' in pelican.settings:
         btoc_default_settings['levels'] = pelican.settings['BTOC_LEVELS']
