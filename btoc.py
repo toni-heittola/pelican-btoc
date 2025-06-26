@@ -229,13 +229,14 @@ def btoc(content):
         for heading in headings:
             this_num = int(heading.name[-1])
             title = None
-            if heading.string:
-                title = heading.string.strip()
+            if heading.get_text():
+                title = heading.get_text().strip()
 
             elif heading.img:
                 title = heading.img.get('alt', None)
                 if not title:
                     title = heading.img.get('title', None)
+
             if title:
                 title = title.strip()
                 anchor = title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '').replace('/', '').replace('?', '').replace(',', '').replace(':', '').replace(';', '').replace('#', '')
@@ -258,7 +259,7 @@ def btoc(content):
                     'anchor': anchor,
                     'title': title
                 })
-
+                #print(heading, title, anchor)
         levels =[]
         for level in btoc_settings['levels']:
             levels.append('h{level}'.format(level=level))
